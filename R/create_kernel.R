@@ -1,3 +1,20 @@
+#' Computes the regularized laplacian matrix from an adjacency matrix
+#' 
+#' This method takes an adjacency matrix, which can be created with 
+#' \code{\link{CreateAdjMatrix}}, and computes the diffusion kernel matrix. If the
+#' dimensions of the adjacency matrix are large (at least 10,000 x 10,000), then this
+#' step can take an hour or more to run.
+#'  
+#' @param adj.mat Required. An adjacency matrix. Can be produced using \code{\link{CreateAdjMatrix}}
+#' @param lambda Optional. Defaults to standard of 0.1. Adjusts the amount of diffusion done. 
+#' Not recommended to change unless there is specific rationale for doing so.
+#' @param autosave Optional. Since this function can take a while to compute, it may be
+#' preferable to have the kernel be saved immediately once it is computed. If autosave is set
+#' to TRUE, a copy of the kernel will be saved in the current working directory.
+#' @return The regularized laplacian kernel matrix.
+#' @examples
+#' kernel = CreateKernel(adj.matrix)   #if not using autosave
+#' CreateKernel(adj.matrix,autosave=TRUE)    #if using autosave
 #' @export
 CreateKernel <- function(adj.mat,lambda=0.1,autosave=FALSE){
   laplace.mat = -1 * (adj.mat)

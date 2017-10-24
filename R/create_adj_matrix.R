@@ -1,3 +1,15 @@
+#' Creates an adjacency matrix from a set of edges.
+#' 
+#' The first step in the ignition workflow (if you are using your own edge set) is 
+#' to convert the edges into an adjacency matrix. This method provides a simple
+#' framework for doing so.
+#' 
+#' @param edge.set A data frame with two columns. Each row is an interaction and each column
+#' is a gene involved in the interaction
+#' @return An adjacency matrix representation of the given edge set.
+#' @examples
+#' data(ignition.example.edges)
+#' adj.mat = CreateAdjMatrix(ignition.example.edges)
 #' @export
 CreateAdjMatrix <- function(edge.set){
   e1 = as.character(toupper(edge.set[,1]))
