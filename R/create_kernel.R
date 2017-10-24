@@ -1,15 +1,17 @@
 #' @export
-create_kernel <- function(adj_mat,lambda=0.1,autosave=TRUE){
-    laplace_mat = -1 * (adj_mat)
-    for (i in 1:nrow(laplace_mat){
-        laplace_mat[i,i] = -1 * sum(laplace_mat[i,])
-    id_mat = diag(nrow(laplace_mat))
-    adjust_mat = lambda * laplace_mat
-    adjust_mat = adjust_mat + id_mat
-    ker_mat = solve(adjust_mat)
-    rownames(ker_mat) = rownames(adj_mat)
-    colnames(ket_mat) = colnames(adj_mat)
-    if (autosave==TRUE){
-        saveRDS(ker_mat,paste0("kernel_",lambda,"_thresh.rds"))
-    }
+CreateKernel <- function(adj.mat,lambda=0.1,autosave=FALSE){
+  laplace.mat = -1 * (adj.mat)
+  for (i in 1:nrow(laplace.mat)){
+    laplace.mat[i,i] = -1 * sum(laplace.mat[i,])
+  }
+  id.mat = diag(nrow(laplace.mat))
+  adjust.mat = lambda * laplace.mat
+  adjust.mat = adjust.mat + id.mat
+  ker.mat = solve(adjust.mat)
+  rownames(ker.mat) = rownames(adj.mat)
+  colnames(ker.mat) = colnames(adj.mat)
+  if (autosave==TRUE){
+    saveRDS(ker.mat,paste0("kernel_",lambda,"_thresh.rds"))
+  }
+  return(ker.mat)
 }

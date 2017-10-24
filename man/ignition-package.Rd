@@ -13,7 +13,7 @@
 The DESCRIPTION file:
 \packageDESCRIPTION{ignition}
 \packageIndices{ignition}
-~~ An overview of how to use the package, including the most important functions ~~
+To be completed
 }
 \author{
 \packageAuthor{ignition}
