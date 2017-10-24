@@ -13,8 +13,10 @@
 #' to TRUE, a copy of the kernel will be saved in the current working directory.
 #' @return The regularized laplacian kernel matrix.
 #' @examples
+#' data(ignition.example.edges)
+#' adj.matrix = CreateAdjMatrix(ignition.example.edges)
 #' kernel = CreateKernel(adj.matrix)   #if not using autosave
-#' CreateKernel(adj.matrix,autosave=TRUE)    #if using autosave
+#' kernel = CreateKernel(adj.matrix,autosave=TRUE)    #if using autosave
 #' @export
 CreateKernel <- function(adj.mat,lambda=0.1,autosave=FALSE){
   laplace.mat = -1 * (adj.mat)

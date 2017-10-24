@@ -9,9 +9,10 @@ Description: This package is intended as a framework for integrating genetic
     genes. From there, this package will re-prioritize the genetic data by 
     determining which genes have close diffusion proximity to the known genes. 
 Depends:
-    R (>= 3.2.3),
+    R (>= 3.2.3)
+Imports:    
     hash
-License: Free Use
+License: CC0
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 5.0.1

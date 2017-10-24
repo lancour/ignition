@@ -26,7 +26,9 @@ dimensions of the adjacency matrix are large (at least 10,000 x 10,000), then th
 step can take an hour or more to run.
 }
 \examples{
+data(ignition.example.edges)
+adj.matrix = CreateAdjMatrix(ignition.example.edges)
 kernel = CreateKernel(adj.matrix)   #if not using autosave
-CreateKernel(adj.matrix,autosave=TRUE)    #if using autosave
+kernel = CreateKernel(adj.matrix,autosave=TRUE)    #if using autosave
 }
 
