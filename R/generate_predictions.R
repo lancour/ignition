@@ -29,6 +29,6 @@ GeneratePredictions <- function(kernel, pheno.gene.set, autocaps = FALSE, pseudo
   print.df = print.df[-c(base.ind),]
   print.df$ptile = rank(print.df$score) / (nrow(print.df) + pseudo.add)
   print.df$netz = qnorm(1 - print.df$ptile,lower.tail=FALSE)
-  print.df = print.df[order(-print.df$z,print.df$gene),]
+  print.df = print.df[order(-print.df$netz,print.df$gene),]
   return(print.df)
 }
