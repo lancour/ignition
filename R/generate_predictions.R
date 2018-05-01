@@ -23,6 +23,10 @@
 #' using a custom kernel, make sure that the ith row/col of the kernel correspond to the ith
 #' row/col of the adjacency matrix. If the user has specified ignore.neighbors = TRUE, then 
 #' this argument is required.
+#' @param weight.vector Optional. User may provide a vector of confidence measures
+#' for each gene in the specified seed set. We recommend a scale from 0 to 1, with 1 being 
+#' highest possible confidence that the gene is associated with the phenotype being studied.
+#' weight.vector should be same length as pheno.gene.set
 #' @return A data frame containing the computed percentiles and Z scores for each gene.
 #' @examples
 #' data(ignition.example.edges)
@@ -31,18 +35,35 @@
 #' known.gene.set = c('B', 'I')
 #' GeneratePredictions(kernel, known.gene.set)
 #' @export
-GeneratePredictions <- function(kernel, pheno.gene.set, autocaps = FALSE,
+GeneratePredictions <- function(kernel, pheno.gene.set, autocaps = TRUE,
                                 invert.distance = FALSE, ignore.neighbors = FALSE, 
-                                adj.matrix = NULL){
+                                adj.matrix = NULL, weight.vector = NULL){
   if (ignore.neighbors == TRUE){
     if (!(class(adj.matrix) == "matrix")) {
       stop("If using ignore.neighbors option, a matrix object must be provided to the
            adj.matrix argument \n")
     }
   }
+  pheno.gene.set = as.character(pheno.gene.set)
+  if (autocaps == TRUE){
+    pheno.gene.set = toupper(pheno.gene.set)
+  }
+  if (length(pheno.gene.set) != length(unique(pheno.gene.set))){
+    warning("duplicate entries detected in the pheno.gene.set vector")
+  }
   k.genes = rownames(kernel)
   base.vec = (k.genes %in% pheno.gene.set) * 1
-  base.ind = which(base.vec ==1)
+  base.ind = which(base.vec == 1)
+  if (!is.null(weight.vector)){
+    if (length(weight.vector) != length(pheno.gene.set)){
+      stop("The specified weight vector is not the same length as the phenotype gene set")
+    }
+    for (cur.ind in base.ind){
+      cur.gene = k.genes[cur.ind]
+      weight.ind = match(cur.gene,pheno.gene.set)
+      base.vec[cur.ind] = weight.vector[weight.ind]
+    }
+  }
   if (length(base.ind) > 0){
     print(paste(length(base.ind), "of", length(pheno.gene.set), "genes present in kernel"))
   } else{
