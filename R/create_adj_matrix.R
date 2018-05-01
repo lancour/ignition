@@ -36,8 +36,7 @@ CreateAdjMatrix <- function(edge.set){
         if (weighted == T){
           adj.mat[par1,par2] = weight.vec[i]
           adj.mat[par2,par1] = weight.vec[i]
-        }
-        else{
+        } else{
           adj.mat[par1,par2] = 1
           adj.mat[par2,par1] = 1
         }
