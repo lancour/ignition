@@ -4,13 +4,16 @@
 \alias{CreateKernel}
 \title{Computes the regularized laplacian matrix from an adjacency matrix}
 \usage{
-CreateKernel(adj.mat, lambda = 0.1, autosave = FALSE)
+CreateKernel(adj.mat, lambda = 0.1, normalize = FALSE, autosave = FALSE)
 }
 \arguments{
 \item{adj.mat}{Required. An adjacency matrix. Can be produced using \code{\link{CreateAdjMatrix}}}
 
 \item{lambda}{Optional. Defaults to standard of 0.1. Adjusts the amount of diffusion done. 
 Not recommended to change unless there is specific rationale for doing so.}
+
+\item{normalize}{Optional. Defaults to false. If set to true, the normalized version 
+of the laplacian is computed prior to kernel computation.}
 
 \item{autosave}{Optional. Since this function can take a while to compute, it may be
 preferable to have the kernel be saved immediately once it is computed. If autosave is set

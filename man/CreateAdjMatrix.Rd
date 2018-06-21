@@ -8,7 +8,9 @@ CreateAdjMatrix(edge.set)
 }
 \arguments{
 \item{edge.set}{A data frame with two columns. Each row is an interaction and each column
-is a gene involved in the interaction}
+is a gene involved in the interaction. Optionally, the data frame can additionally contain
+a third column containing a numeric confidence measure for each interaction. Interactions
+with missing or negative confidence measures are ignored.}
 }
 \value{
 An adjacency matrix representation of the given edge set.

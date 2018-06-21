@@ -4,8 +4,9 @@
 \alias{GeneratePredictions}
 \title{Generates network scores for all genes in a network}
 \usage{
-GeneratePredictions(kernel, pheno.gene.set, autocaps = FALSE,
-  pseudo.add = 0.1)
+GeneratePredictions(kernel, pheno.gene.set, autocaps = TRUE,
+  invert.distance = FALSE, ignore.neighbors = FALSE, adj.matrix = NULL,
+  weight.vector = NULL)
 }
 \arguments{
 \item{kernel}{Required. Produced by \code{\link{CreateKernel}} or user may provide own
@@ -17,8 +18,26 @@ automatically be coerced to uppercase unless overriden (see autocaps param).}
 \item{autocaps}{Optional. Defaults to TRUE. Converts all entries in pheno.gene.set to
 uppercase to ensure accurate mapping to genes in kernel.}
 
-\item{pseudo.add}{Optional. Defaults to 0.1. Adds a small pseudocount to prevent any gene
-from having a percentile of exactly 0 or 1 (qnorm produces an infinite Z score otherwise)}
+\item{invert.distance}{Optional. Defaults to FALSE. If using a different kernel other than
+the difussion kernel produced by \code{\link{CreateKernel}}, this may need to be toggled
+to TRUE. For example, high values in a diffusion kernel are good, whereas for other distance
+measures, such as shortest path, low values are good.}
+
+\item{ignore.neighbors}{Optional. Defaults to FALSE. If set to TRUE, then predictions will
+only be generated for genes that do not directly interact with the pheno.gene.set. This allows
+for investigation of indirect interactions that can be detected with ignition's diffusion
+method. Note that if this is set to TRUE, an adjacency matrix such as that produced by
+\code{\link{CreateAdjMatrix}} must be provided}
+
+\item{adj.matrix}{Optional. An adjacency matrix of the same dimensions as the kernel. If
+using a custom kernel, make sure that the ith row/col of the kernel correspond to the ith
+row/col of the adjacency matrix. If the user has specified ignore.neighbors = TRUE, then 
+this argument is required.}
+
+\item{weight.vector}{Optional. User may provide a vector of confidence measures
+for each gene in the specified seed set. We recommend a scale from 0 to 1, with 1 being 
+highest possible confidence that the gene is associated with the phenotype being studied.
+weight.vector should be same length as pheno.gene.set}
 }
 \value{
 A data frame containing the computed percentiles and Z scores for each gene.
