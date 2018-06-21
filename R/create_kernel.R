@@ -8,6 +8,8 @@
 #' @param adj.mat Required. An adjacency matrix. Can be produced using \code{\link{CreateAdjMatrix}}
 #' @param lambda Optional. Defaults to standard of 0.1. Adjusts the amount of diffusion done. 
 #' Not recommended to change unless there is specific rationale for doing so.
+#' @param normalize Optional. Defaults to false. If set to true, the normalized version 
+#' of the laplacian is computed prior to kernel computation.
 #' @param autosave Optional. Since this function can take a while to compute, it may be
 #' preferable to have the kernel be saved immediately once it is computed. If autosave is set
 #' to TRUE, a copy of the kernel will be saved in the current working directory.
@@ -18,11 +20,20 @@
 #' kernel = CreateKernel(adj.matrix)   #if not using autosave
 #' kernel = CreateKernel(adj.matrix,autosave=TRUE)    #if using autosave
 #' @export
-CreateKernel <- function(adj.mat,lambda=0.1,autosave=FALSE){
+CreateKernel <- function(adj.mat,lambda=0.1,normalize=FALSE,autosave=FALSE){
   laplace.mat = -1 * abs(adj.mat)
   for (i in 1:nrow(laplace.mat)){
     laplace.mat[i,i] = 0
     laplace.mat[i,i] = -1 * sum(laplace.mat[i,])
+  }
+  if (normalize==TRUE){
+    deg.mat = diag(nrow(laplace.mat))
+    for (i in 1:nrow(laplace.mat)){
+      deg.mat[i,i] = 1 / sqrt(laplace.mat[i,i])
+    }
+    laplace.mat = deg.mat %*% laplace.mat
+    laplace.mat = laplace.mat %*% deg.mat
+    rm(deg.mat)
   }
   id.mat = diag(nrow(laplace.mat))
   adjust.mat = lambda * laplace.mat
